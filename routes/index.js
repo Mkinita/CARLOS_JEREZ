@@ -1,30 +1,22 @@
-import express from'express';
-import {paginaInicio, 
-    paginaNosotros,
-    paginaViajes,
-    paginaTestimoniales,
-    paginaDetalleViaje
-} from '../controllers/paginasControllers.js';
-
-import {
-    guardarTestimonial
-} from '../controllers/testimonialControllers.js';
+import express from "express";
+import { paginaInicio,
+    paginaProducto,
+    paginaCategoria ,
+    buscaProductoNombre,
+    paginaProductoCategoria,
+    paginaObtenerCategoriaProducto,
+} from "../controllers/paginasControllers.js";
 
 const router = express.Router();
 
-router.get('/',paginaInicio);
-
-router.get('/nosotros', paginaNosotros );
-
-
-router.get('/viajes',paginaViajes );
-
-router.get('/viajes/:slug',paginaDetalleViaje );
-
-router.get('/testimoniales',paginaTestimoniales );
-
-router.post('/testimoniales', guardarTestimonial);
-
+router.get('/inicio',paginaInicio);
+router.get('/producto',paginaProducto);
+router.get('/categoria',paginaCategoria);
+router.get('/producto/:pro',paginaProductoCategoria);
+//ruta que busca productos por nombre 
+router.post('/producto/:buscar_nombre_producto',buscaProductoNombre);
+//ruta que busca productos por el id de la categoria 
+router.get('/productos/:categoria_id',paginaObtenerCategoriaProducto);
 
 
 

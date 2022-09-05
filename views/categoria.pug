@@ -1,0 +1,15 @@
+extends ./layout/index
+
+block contenido
+    h1 #{pagina}
+    main.container.mt-5 
+        .row.proximos-viajes
+
+            each Categoria in cate 
+                .col-md-6.col-lg-4.mb-4
+                            .card
+                                a(href=`productos/${Categoria.id}`, class="btn btn-success btn-block")
+                                    h2= Categoria.name
+                            .card-body
+                                    
+        //- p= JSON.stringify(cate)

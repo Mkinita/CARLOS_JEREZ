@@ -1,0 +1,7 @@
+extends ./layout/index
+block contenido
+    h1 
+    main.container.mt-5 
+        .row.proximos-viajes
+            each producto in buscar
+                h2= producto.name 

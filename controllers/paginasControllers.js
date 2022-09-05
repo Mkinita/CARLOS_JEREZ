@@ -1,96 +1,91 @@
-import {Viaeje} from '../Models/Vieaje.js';
-import {Testimonial} from '../Models/Testimoniales.js';
+import {Producto} from '../Models/Producto.js'
+import {Categoria} from '../Models/Categoria.js'
+import { name } from 'pug/lib/index.js';
 
-const paginaInicio = async (req,res) => {
-
-    //Consultar 3 viajes del modelo viaje
-
-    const promiseDB = [];
-
-    promiseDB.push(Viaeje.findAll({ limit: 3}));
-    promiseDB.push(Testimonial.findAll({ limit: 3}));
-
-
-    
-    try {
-
-        const resultado = await Promise.all( promiseDB );
-
-        res.render('inicio',{
-            pagina:'Inicio',
-            clase:'home',
-            viajes: resultado[0],
-            testimoniales: resultado[1]
-        } );
-    } catch (error) {
-        console.log(error);
-    }
-
-   
-}
-
-const paginaNosotros = (req,res) => {
-    res.render('nosotros', {
-        pagina:'Nosotros'
+const paginaInicio = (req, res) => {
+    res.render('inicio',{
+    pagina:'inicio'
     });
 }
 
+const paginaProducto = async (req, res)  => {
 
-const paginaViajes = async (req,res) => {
-    //consultar base de datos
-    const viajes = await Viaeje.findAll();
-
-    console.log(viajes);
-
-    res.render('viajes', {
-        pagina:'Proximos Viajes',
-        viajes,
-    })
+    const product  =  await Producto.findAll() ;
+    
+    // console.log(product);
+    res.render('producto',{
+        pagina:'producto',
+        product,
+        });
 }
 
 
-const paginaTestimoniales = async (req,res) => {
+const paginaCategoria = async (req, res) => {
+
+    const cate = await Categoria.findAll();
+    
+    // console.log(cate)
+
+    res.render('categoria',{
+        pagina:'categoria',
+        cate,
+        });
+}
+
+const paginaProductoCategoria = async (req, res) =>{
+    // console.log(req.params)
+    const {pro} = req.params;
 
     try {
-        
-        const testimoniales = await Testimonial.findAll()
-
-        res.render('testimoniales', {
-            pagina:'Testimoniales',
-            testimoniales
+        const resultadodos = await Producto.findOne({where:{name:pro} });
+        res.render('detallecategoria', {
+            pagina:'informaciones',
+            resultadodos
+            
         })
-
     } catch (error) {
-        console.log(error);
+       console.log(error);
     }
-
 }
+const paginaObtenerCategoriaProducto = async (req,res) =>{
+    const id_categoria = req.params.categoria_id;
 
-//muestra un viaje por su slug
+    const productos = await Producto.findAll({ where: {
+        category:id_categoria
+      }});
 
-const paginaDetalleViaje = async (req,res) => {
-    const { slug } = req.params;
-
+      res.render('listado_categoria', {
+        pagina:'listado',
+        productos
+        
+    })
+}
+const buscaProductoNombre = async (req,res) =>{
     
-
-    try{
-        const viaje = await Viaeje.findOne({ where : { slug}});
-        res.render('viaje',{
-           pagina: 'Informacion Viaje' , 
-           viaje
-        })
-
-    } catch(error){
-        console.log(error);
-    }
-
+    
+    const {nombre} = req.body
+    const buscar_nombre_producto = req.params.buscar_nombre_producto;
+    const buscar = await Producto.findAll({ where: {
+        name
+      }});
+      
+      res.render('buscar_producto_nombre',{
+        pagina:'buscar_producto_nombre',
+        nombre,
+        buscar,
+        });
 }
+
+
+
+
+
 
 export {
-    paginaInicio,
-    paginaNosotros,
-    paginaViajes,
-    paginaTestimoniales,
-    paginaDetalleViaje
-    
+    paginaInicio, 
+    paginaProducto, 
+    paginaCategoria,
+    buscaProductoNombre,
+    paginaProductoCategoria,
+    paginaObtenerCategoriaProducto
 }

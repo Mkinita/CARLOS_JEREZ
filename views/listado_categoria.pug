@@ -1,0 +1,17 @@
+extends ./layout/index
+block contenido
+    h1 
+    main.container.mt-5 
+        .row.proximos-viajes
+            each producto in productos 
+                
+                    .col-md-6.col-lg-4.mb-4
+                        .card
+                            img.card-img-top(src=(producto.url_image))
+                                
+                            
+                                
+                        .card-body
+                            h2= producto.name 
+                                h3= producto.price
+        
