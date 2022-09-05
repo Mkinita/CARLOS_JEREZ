@@ -71,6 +71,8 @@ const paginaTestimoniales = async (req,res) => {
 const paginaDetalleViaje = async (req,res) => {
     const { slug } = req.params;
 
+    
+
     try{
         const viaje = await Viaeje.findOne({ where : { slug}});
         res.render('viaje',{

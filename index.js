@@ -39,7 +39,6 @@ app.use((req, res, next) =>{
 
 //Agregar body paser para leer los datos del formulario
 
-
 app.use('/', express.urlencoded({extended: true}));
 
 //Definir la carpeta publica
